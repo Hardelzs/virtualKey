@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PianoKey from "./PianoKeys";
-import Command from "@/settings/command";
-import { ModeToggle } from "@/settings/ModeToggle";
+import Command from "../settings/command";
+import { ModeToggle } from "../settings/ModeToggle";
 
 interface KeyMap {
 
