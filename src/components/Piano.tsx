@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PianoKey from "./PianoKeys";
+import Command from "@/settings/command";
+import { ModeToggle } from "@/settings/ModeToggle";
 
 interface KeyMap {
 
@@ -23,20 +25,25 @@ const Piano: React.FC = () => {
     h: { note: "A", audio: new Audio("/sounds/A.wav") },
     j: { note: "B", audio: new Audio("/sounds/B.wav") },
     k: { note: "C+", audio: new Audio("/sounds/C.m4a") },
-    
+  
   };
+
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+
       const key = e.key.toLowerCase();
+
       if (keyMap[key]) {
         // Play sound
         keyMap[key].audio.currentTime = 0;
         keyMap[key].audio.play();
 
+
         // Set active key
         setActiveKeys((prev) => [...new Set([...prev, key])]);
       }
+
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
@@ -51,11 +58,16 @@ const Piano: React.FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+
+  }, [  ]);
 
   return (
     <div className="flex gap-1 p-4">
-      {Object.entries(keyMap).map(([keyChar, { note }]) => (
+      <Command />
+      <ModeToggle />
+      {Object.entries(keyMap)
+      // .filter(([keyChar]) => activeKeys.includes(keyChar))
+      .map(([keyChar, { note }]) => (
         <PianoKey
           key={keyChar}
           note={note}
