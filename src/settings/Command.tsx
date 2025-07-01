@@ -15,31 +15,30 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useEffect } from "react"
 
-const Command = () => {
-  // Example handlers for each command
+const Command = ({ onToggleVisibility }: { onToggleVisibility: () => void }) => {
+
   const handleVisibility = () => {
-    alert("Visibility toggled!")
-    // Add your logic here
-  }
+    onToggleVisibility();
+  };
 
   const handleVoice = () => {
     alert("Voice command triggered!")
-    // Add your logic here
+    
   }
 
   const handleSongs = () => {
     alert("Songs command triggered!")
-    // Add your logic here
+    
   }
 
   const handleTranspose = () => {
     alert("Transpose command triggered!")
-    // Add your logic here
+    
   }
 
   const handleOctave = () => {
     alert("Octave command triggered!")
-    // Add your logic here
+    
   }
 
   // Keyboard shortcuts
@@ -59,7 +58,7 @@ const Command = () => {
             e.preventDefault()
             handleSongs()
             break
-          case "k":
+          case "t":
             e.preventDefault()
             handleTranspose()
             break
@@ -67,11 +66,11 @@ const Command = () => {
             e.preventDefault()
             handleOctave()
             break
-          case "q":
+          case "u":
             e.preventDefault()
             alert("Log out triggered!")
             break
-          case "t":
+          case "w":
             e.preventDefault()
             alert("New Team triggered!")
             break
@@ -107,7 +106,7 @@ const Command = () => {
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={handleTranspose}>
             Transpose
-            <DropdownMenuShortcut>ctrl+K</DropdownMenuShortcut>
+            <DropdownMenuShortcut>ctrl+T</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={handleOctave}>
             Octave
@@ -130,7 +129,7 @@ const Command = () => {
           </DropdownMenuSub>
           <DropdownMenuItem>
             New Team
-            <DropdownMenuShortcut>ctrl+T</DropdownMenuShortcut>
+            <DropdownMenuShortcut>ctrl+W</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -140,7 +139,7 @@ const Command = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Log out
-          <DropdownMenuShortcut>ctrl+Q</DropdownMenuShortcut>
+          <DropdownMenuShortcut>ctrl+U</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu></div>

@@ -15,6 +15,7 @@ interface KeyMap {
 const Piano: React.FC = () => {
   // Define the keys and corresponding notes
   const [activeKeys, setActiveKeys] = useState<string[]>([]);
+  const [showKeys, setShowKeys] = useState(true); // Add this line
 
   const keyMap: KeyMap = {
     a: { note: "C", audio: new Audio("/sounds/C.wav") },
@@ -63,18 +64,19 @@ const Piano: React.FC = () => {
 
   return (
     <div className="flex gap-1 p-4">
-      <Command />
+      <Command onToggleVisibility={() => setShowKeys((v) => !v)} />
       <ModeToggle />
-      {Object.entries(keyMap)
-      // .filter(([keyChar]) => activeKeys.includes(keyChar))
-      .map(([keyChar, { note }]) => (
-        <PianoKey
-          key={keyChar}
-          note={note}
-          keychar={keyChar.toUpperCase()}
-          isActive={activeKeys.includes(keyChar)}
-        />
-      ))}
+      {showKeys &&
+        Object.entries(keyMap)
+          // .filter(([keyChar]) => activeKeys.includes(keyChar))
+          .map(([keyChar, { note }]) => (
+            <PianoKey
+              key={keyChar}
+              note={note}
+              keychar={keyChar.toUpperCase()}
+              isActive={activeKeys.includes(keyChar)}
+            />
+          ))}
     </div>
   );
 };
