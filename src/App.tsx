@@ -2,7 +2,7 @@ import React from "react";
 import Piano from "./components/Piano";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "./settings/ModeToggle";
-import NeuralLinkBackground from "./Background/NeuralLinkBackground";
+import NeuralLinkBackground from "./theme/NeuralLinkBackground";
 
 const App: React.FC = () => {
   return (
