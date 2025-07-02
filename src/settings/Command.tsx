@@ -17,11 +17,20 @@ import { useEffect } from "react";
 
 const Command = ({
   onToggleVisibility,
-}: {
+}:
+ {
   onToggleVisibility: () => void;
-}) => {
-  const handleVisibility = () => {
+}) => 
+  { 
+  
+    const handleVisibility = () => {
     onToggleVisibility();
+  };
+
+  const handleCommands = () => {
+    DropdownMenuTrigger.prototype.onSelect = () => {
+      alert("Commands triggered!");
+    }
   };
 
   const handleVoice = () => {
@@ -73,6 +82,10 @@ const Command = ({
             e.preventDefault();
             alert("New Team triggered!");
             break;
+          case "c":
+            e.preventDefault();
+            handleCommands()
+            break;
           default:
             break;
         }
@@ -86,8 +99,8 @@ const Command = ({
   return (
     <div className="absolute top-3 right-3 cursor-pointer">
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <p className="text-gray-400 text cursor-pointer inset-0">Command</p>
+        <DropdownMenuTrigger asChild onSelect={handleCommands}>
+          <p className="text-gray-400 text cursor-pointer relative z-10">Command</p>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="start">
           <DropdownMenuLabel>VirtualKey</DropdownMenuLabel>

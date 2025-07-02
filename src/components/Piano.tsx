@@ -4,12 +4,10 @@ import Command from "@/settings/Command";
 import { ModeToggle } from "@/settings/ModeToggle";
 
 interface KeyMap {
-
   [key: string]: {
     note: string;
     audio: HTMLAudioElement;
   };
-
 }
 
 const Piano: React.FC = () => {
@@ -18,6 +16,8 @@ const Piano: React.FC = () => {
   const [showKeys, setShowKeys] = useState(true); // Add this line
 
   const keyMap: KeyMap = {
+    q: { note: "A-", audio: new Audio("/sounds/C-.wav") },
+    w: { note: "B-", audio: new Audio("/sounds/D-.wav") },
     a: { note: "C", audio: new Audio("/sounds/C.wav") },
     s: { note: "D", audio: new Audio("/sounds/D.wav") },
     d: { note: "E", audio: new Audio("/sounds/E.wav") },
@@ -26,13 +26,13 @@ const Piano: React.FC = () => {
     h: { note: "A", audio: new Audio("/sounds/A.wav") },
     j: { note: "B", audio: new Audio("/sounds/B.wav") },
     k: { note: "C+", audio: new Audio("/sounds/C.m4a") },
-  
-  };
+    l: { note: "D+", audio: new Audio("/sounds/D.m4a") },
+    z: { note: "E+", audio: new Audio("/sounds/E.m4a") },
 
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-
       const key = e.key.toLowerCase();
 
       if (keyMap[key]) {
@@ -40,11 +40,9 @@ const Piano: React.FC = () => {
         keyMap[key].audio.currentTime = 0;
         keyMap[key].audio.play();
 
-
         // Set active key
         setActiveKeys((prev) => [...new Set([...prev, key])]);
       }
-
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
@@ -59,8 +57,7 @@ const Piano: React.FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-
-  }, [  ]);
+  }, []);
 
   return (
     <div className="flex gap-1 p-4">
