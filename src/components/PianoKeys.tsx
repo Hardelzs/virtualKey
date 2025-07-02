@@ -10,7 +10,7 @@ const PianoKey: React.FC<PianokeyPrps> = ({ note, keychar, isActive }) => {
   return (
     <div
       className={`border w-12 h-32 flex items-center text-black justify-center text-sm font-bold cursor-pointer
-      ${isActive ? "bg-yellow-400" : "bg-white"}
+      ${isActive ? "bg-yellow-400 dark:bg-green-400" : "bg-white"}
       `}
     >
       {note}
