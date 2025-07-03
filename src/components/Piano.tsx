@@ -10,11 +10,6 @@ interface KeyMap {
   };
 }
 
-const Piano: React.FC = () => {
-  // Define the keys and corresponding notes
-  const [activeKeys, setActiveKeys] = useState<string[]>([]);
-  const [showKeys, setShowKeys] = useState(true); // Add this line
-
   const keyMap: KeyMap = {
     q: { note: "A-", audio: new Audio("/sounds/C-.wav") },
     w: { note: "B-", audio: new Audio("/sounds/D-.wav") },
@@ -31,9 +26,16 @@ const Piano: React.FC = () => {
 
   };
 
+const Piano: React.FC = () => {
+  // Define the keys and corresponding notes
+  const [activeKeys, setActiveKeys] = useState<string[]>([]);
+  const [showKeys, setShowKeys] = useState(true); // Add this line
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
+
+      if(activeKeys.includes(key)) return
 
       if (keyMap[key]) {
         // Play sound
