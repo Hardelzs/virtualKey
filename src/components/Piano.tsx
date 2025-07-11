@@ -10,35 +10,44 @@ interface KeyMap {
   };
 }
 
-  const keyMap: KeyMap = {
-    q: { note: "A-", audio: new Audio("/sounds/C-.wav") },
-    w: { note: "B-", audio: new Audio("/sounds/D-.wav") },
-    a: { note: "C", audio: new Audio("/sounds/C.wav") },
-    s: { note: "D", audio: new Audio("/sounds/D.wav") },
-    d: { note: "E", audio: new Audio("/sounds/E.wav") },
-    f: { note: "F", audio: new Audio("/sounds/F.wav") },
-    g: { note: "G", audio: new Audio("/sounds/G.wav") },
-    h: { note: "A", audio: new Audio("/sounds/A.wav") },
-    j: { note: "B", audio: new Audio("/sounds/B.wav") },
-    k: { note: "C+", audio: new Audio("/sounds/C.m4a") },
-    l: { note: "D+", audio: new Audio("/sounds/D.m4a") },
-    z: { note: "E+", audio: new Audio("/sounds/E.m4a") },
-
-  };
+const keyMap: KeyMap = {
+  q: { note: "A-", audio: new Audio("/sounds/C-.wav") },
+  w: { note: "B-", audio: new Audio("/sounds/D-.wav") },
+  a: { note: "C", audio: new Audio("/sounds/C.wav") },
+  s: { note: "D", audio: new Audio("/sounds/D.wav") },
+  d: { note: "E", audio: new Audio("/sounds/E.wav") },
+  f: { note: "F", audio: new Audio("/sounds/F.wav") },
+  g: { note: "G", audio: new Audio("/sounds/G.wav") },
+  h: { note: "A", audio: new Audio("/sounds/A.wav") },
+  j: { note: "B", audio: new Audio("/sounds/B.wav") },
+  k: { note: "C+", audio: new Audio("/sounds/C.m4a") },
+  l: { note: "D+", audio: new Audio("/sounds/D.m4a") },
+  z: { note: "E+", audio: new Audio("/sounds/E.m4a") },
+};
 
 const Piano: React.FC = () => {
   // Define the keys and corresponding notes
   const [activeKeys, setActiveKeys] = useState<string[]>([]);
-  const [showKeys, setShowKeys] = useState(true); // Add this line
+  const [showKeys, setShowKeys] = useState(true);
+  const [volume, setVolume] = useState(1);
+  const increaseVolume = () => {
+    setVolume((prev) => Math.min(prev + 0.1, 1));
+  };
+  const descreaseVolume = () => {
+    setVolume((prev) => Math.max(prev - 0.1, 0));
+  };
+  const muteVolume = () => {
+    setVolume(0);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
 
-      if(activeKeys.includes(key)) return
+      if (activeKeys.includes(key)) return;
 
       if (keyMap[key]) {
-        // Play sound
+        keyMap[key].audio.volume = volume;
         keyMap[key].audio.currentTime = 0;
         keyMap[key].audio.play();
 
@@ -76,6 +85,30 @@ const Piano: React.FC = () => {
               isActive={activeKeys.includes(keyChar)}
             />
           ))}
+
+      <div className="flex flex-col gap-2 ml-6 relative z-10">
+        <button
+          onClick={increaseVolume}
+          className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+        >
+          🔊 Volume Up
+        </button>
+        <button
+          onClick={descreaseVolume}
+          className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          🔉 Volume Down
+        </button>
+        <button
+          onClick={muteVolume}
+          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+        >
+          🔇 Mute
+        </button>
+        <div className="text-white text-sm mt-2">
+          Current Volume: {(volume * 100).toFixed(0)}%
+        </div>
+      </div>
     </div>
   );
 };

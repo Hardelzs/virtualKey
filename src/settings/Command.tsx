@@ -125,6 +125,10 @@ const Command = ({
               Octave
               <DropdownMenuShortcut>ctrl+O</DropdownMenuShortcut>
             </DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleOctave}>
+              Volume
+              <DropdownMenuShortcut>ctrl+M</DropdownMenuShortcut>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
