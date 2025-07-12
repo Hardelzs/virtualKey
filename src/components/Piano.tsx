@@ -30,28 +30,52 @@ const Piano: React.FC = () => {
   const [activeKeys, setActiveKeys] = useState<string[]>([]);
   const [showKeys, setShowKeys] = useState(true);
   const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const [showVolumeAnim, setShowVolumeAnim] = useState(false);
+
   const increaseVolume = () => {
     setVolume((prev) => Math.min(prev + 0.1, 1));
+    setShowVolumeAnim(true);
+    setTimeout(() => setShowVolumeAnim(false), 1000);
   };
   const descreaseVolume = () => {
     setVolume((prev) => Math.max(prev - 0.1, 0));
+    setShowVolumeAnim(true);
+    setTimeout(() => setShowVolumeAnim(false), 1000);
   };
-  const muteVolume = () => {
-    setVolume(0);
+  const toggleMute = () => {
+    setIsMuted((prev) => !prev);
+    setShowVolumeAnim(true);
+    setTimeout(() => setShowVolumeAnim(false), 1000);
   };
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const key = e.key.toLowerCase();
+    if (showVolumeAnim) {
+      const timer = setTimeout(() => setShowVolumeAnim(false), 800);
+      return () => clearTimeout(timer)
+    }
+  }, [showVolumeAnim])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Volume short
+      if(e.shiftKey && e.key === "ArrowUp") {
+        e.preventDefault();
+        increaseVolume()
+      }
+      if(e.shiftKey && e.key === "ArrowDown") {
+        e.preventDefault()
+        descreaseVolume()
+      }
+
+      // key for playing
+      const key = e.key.toLowerCase();
       if (activeKeys.includes(key)) return;
 
       if (keyMap[key]) {
         keyMap[key].audio.volume = volume;
         keyMap[key].audio.currentTime = 0;
         keyMap[key].audio.play();
-
-        // Set active key
         setActiveKeys((prev) => [...new Set([...prev, key])]);
       }
     };
@@ -68,7 +92,7 @@ const Piano: React.FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [activeKeys, volume, isMuted]);
 
   return (
     <div className="flex gap-1 p-4">
@@ -100,14 +124,19 @@ const Piano: React.FC = () => {
           🔉 Volume Down
         </button>
         <button
-          onClick={muteVolume}
+          onClick={toggleMute}
           className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
         >
-          🔇 Mute
+          {isMuted ? "🔈Unmute" : "🔇Mute"}
         </button>
         <div className="text-white text-sm mt-2">
-          Current Volume: {(volume * 100).toFixed(0)}%
+          Current Volume: {isMuted ? "Muted" : `${(volume * 100).toFixed(0)}%`}
         </div>
+        {showVolumeAnim && (
+          <div >
+            {isMuted ? "Muted" : `Volume: ${(volume * 100).toFixed(0)}%`}
+          </div>
+        )}
       </div>
     </div>
   );
