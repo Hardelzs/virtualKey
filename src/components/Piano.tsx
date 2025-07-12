@@ -67,6 +67,10 @@ const Piano: React.FC = () => {
         e.preventDefault()
         descreaseVolume()
       }
+      if(e.shiftKey && e.key === "M"){
+        e.preventDefault()
+        toggleMute()
+      }
 
       // key for playing
       const key = e.key.toLowerCase();
@@ -133,7 +137,7 @@ const Piano: React.FC = () => {
           Current Volume: {isMuted ? "Muted" : `${(volume * 100).toFixed(0)}%`}
         </div>
         {showVolumeAnim && (
-          <div >
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-black bg-opacity-70 text-white px-4 py-2 rounded shadow-lg transition-all animate-bounce z-20">
             {isMuted ? "Muted" : `Volume: ${(volume * 100).toFixed(0)}%`}
           </div>
         )}
