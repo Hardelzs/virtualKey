@@ -54,8 +54,8 @@ const Volume: React.FC<{
     <div>
       <div className="flex flex-col gap-2 ml-6 relative z-10">
         {showVolumeAnim && (
-          <div className="absolute top-30 left-80 -translate-x-1/2 bg-white border-black text-black dark:bg-black border dark:border-white bg-opacity-70 dark:text-white px-14 py-12 rounded-md shadow-lg transition-all animate-bounce z-20">
-            {isMuted ? "🔇Muted" : `🔈Volume: ${(volume * 100).toFixed(0)}% `}
+          <div className="absolute top-30 left-80 -translate-x-1/2 bg-white border-black text-black dark:bg-black border dark:border-white bg-opacity-70 dark:text-white px-24 py-12 rounded-md shadow-lg transition-all animate-bounce z-20">
+            {isMuted ? "🔇Muted" : `🔈Volume: ${(volume * 100).toFixed(0)}%  `}
           </div>
         )}
       </div>
