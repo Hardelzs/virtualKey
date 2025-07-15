@@ -14,24 +14,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Command = ({
   onToggleVisibility,
-}:
- {
+}: {
   onToggleVisibility: () => void;
-}) => 
-  { 
-  
-    const handleVisibility = () => {
+}) => {
+  const handleVisibility = () => {
     onToggleVisibility();
   };
 
   const handleCommands = () => {
     DropdownMenuTrigger.prototype.onSelect = () => {
       alert("Commands triggered!");
-    }
+    };
   };
 
   const handleVoice = () => {
@@ -49,7 +46,6 @@ const Command = ({
   const handleOctave = () => {
     alert("Octave command triggered!");
   };
-   const navigate = useNavigate();
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -86,7 +82,7 @@ const Command = ({
             break;
           case "c":
             e.preventDefault();
-            handleCommands()
+            handleCommands();
             break;
           default:
             break;
@@ -102,7 +98,9 @@ const Command = ({
     <div className="absolute top-3 right-3 cursor-pointer">
       <DropdownMenu>
         <DropdownMenuTrigger asChild onSelect={handleCommands}>
-          <p className="text-gray-400 text cursor-pointer relative z-10">Command</p>
+          <p className="text-gray-400 text cursor-pointer relative z-10">
+            Command
+          </p>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="start">
           <DropdownMenuLabel>VirtualKey</DropdownMenuLabel>
@@ -152,7 +150,10 @@ const Command = ({
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/docs")}>Documentation</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/docs">Documentation</Link>
+          </DropdownMenuItem>
+
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuItem disabled>API</DropdownMenuItem>
           <DropdownMenuSeparator />

@@ -3,6 +3,9 @@ import PianoKey from "./PianoKeys";
 import Command from "@/settings/Command";
 import { ModeToggle } from "@/settings/ModeToggle";
 import Volume from "@/settings/Volume";
+import Pro from "./Pro";
+import NeuralLinkBackground from "@/theme/NeuralLinkBackground";
+import { ThemeProvider } from "./ThemeProvider";
 
 interface KeyMap {
   [key: string]: {
@@ -71,6 +74,11 @@ const Piano: React.FC = () => {
         isMuted={isMuted}
         setIsMuted={setIsMuted}
       />
+      <Pro />
+      <NeuralLinkBackground />
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <ModeToggle />
+      </ThemeProvider>
       {showKeys &&
         Object.entries(keyMap)
           // .filter(([keyChar]) => activeKeys.includes(keyChar))
