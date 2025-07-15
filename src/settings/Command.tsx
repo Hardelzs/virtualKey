@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Command = ({
   onToggleVisibility,
@@ -48,6 +49,7 @@ const Command = ({
   const handleOctave = () => {
     alert("Octave command triggered!");
   };
+   const navigate = useNavigate();
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -150,7 +152,7 @@ const Command = ({
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Documentation</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/docs")}>Documentation</DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuItem disabled>API</DropdownMenuItem>
           <DropdownMenuSeparator />

@@ -4,6 +4,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "./settings/ModeToggle";
 import NeuralLinkBackground from "./theme/NeuralLinkBackground";
 import Pro from "./components/Pro";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Documents from "./Documents/Documents";
 
 
 const App: React.FC = () => {
@@ -15,6 +17,11 @@ const App: React.FC = () => {
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <ModeToggle />
       </ThemeProvider>
+      <Router>
+        <Routes>
+          <Route path="docs" element={<Documents />} />
+        </Routes>
+      </Router>
     </div>
   );
 };
