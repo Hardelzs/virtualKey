@@ -33,7 +33,7 @@ const Documents: React.FC = () => {
   const [activeSection, setActiveSection] = useState<SectionKey>("Overview");
 
   return (
-    <div className="min-h-screen bg-gray-200 dark:bg-black w-full flex flex-col">
+    <div className="min-h-screen bg-gray-200 dark:bg-black w-full flex flex-col font-mono">
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <ModeToggle />
       </ThemeProvider>
@@ -61,7 +61,7 @@ const Documents: React.FC = () => {
       <hr className="mt-3 border-[#363535] w-full" />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto mt-6 flex w-full  gap-6 px-4">
+      <div className="max-w-7xl mx-auto mt-6 flex w-full  gap-26 px-4">
         {/* Sidebar */}
         <div className="bg-white dark:bg-[#111111] dark:text-white h-[870px] p-4 rounded-md w-60">
           {Object.keys(sections).map((title) => (
@@ -81,6 +81,14 @@ const Documents: React.FC = () => {
         <div className="flex-1  p-6  text-gray-900 dark:text-gray-100">
           <h2 className="text-2xl font-bold mb-2">{activeSection}</h2>
           <p className="text-base leading-relaxed">{sections[activeSection]}</p>
+        </div>
+
+        {/* developers contenet  */}
+        <div className=" flex flex-col gap-4  dark:text-white p-4 cursor-pointer font-mono ">
+          <h2>For developers</h2>
+          <p>For users</p>
+          <hr className="text-black w-[230px] border-[#8d8a8a]"/>
+          <h2>Export as PDF</h2>
         </div>
       </div>
     </div>
