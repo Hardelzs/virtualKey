@@ -19,7 +19,7 @@ const sectionKeys = [
 type SectionKey = typeof sectionKeys[number];
 
 const sections: Record<SectionKey, string> = {
-  "Overview": "VirtualKeys is a minimalist piano app that uses your keyboard instead of on-screen keys. It's distraction-free and intuitive.",
+  "Overview": "VirtualKeys is a minimalist piano app that uses your keyboard instead of on-screen keys. It's distraction free and intuitive.",
   "How It Works": "Each key on your physical keyboard is mapped to a piano note. You press and hear the sound in real time.",
   "Features": "Includes multiple instrument sounds, custom key mapping, volume controls, and auto-save settings.",
   "Getting Started": "Open the app, choose your sound, press any letter key to play, and customize in settings.",
@@ -69,7 +69,7 @@ const Documents: React.FC = () => {
               key={title}
               onClick={() => setActiveSection(title as SectionKey)}
               className={`block text-left w-full py-2 px-3 rounded hover:bg-[#ebebeb] dark:hover:bg-[#252525] ${
-                activeSection === title ? "text-[#696666] font-semibold" : ""
+                activeSection === title ? "text-[#da8282] font-semibold" : ""
               }`}
             >
                {title}
@@ -85,7 +85,7 @@ const Documents: React.FC = () => {
 
         {/* developers contenet  */}
         <div className=" flex flex-col gap-4  dark:text-white p-4 cursor-pointer font-mono ">
-          <h2>For developers</h2>
+          <h2 className={` ${activeSection ? "text-red-400": ""}`}>For developers</h2>
           <p>For users</p>
           <hr className="text-black w-[230px] border-[#8d8a8a]"/>
           <h2>Export as PDF</h2>
