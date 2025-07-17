@@ -1,21 +1,49 @@
+import { useState } from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "@/settings/ModeToggle";
 import { Loader } from "lucide-react";
 import type React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const sectionKeys = [
+  "Overview",
+  "How It Works",
+  "Features",
+  "Getting Started",
+  "Keyboard Shortcuts",
+  "Settings & Customization",
+  "Troubleshooting & FAQ"
+] as const;
+
+type SectionKey = typeof sectionKeys[number];
+
+const sections: Record<SectionKey, string> = {
+  "Overview": "VirtualKeys is a minimalist piano app that uses your keyboard instead of on-screen keys. It's distraction-free and intuitive.",
+  "How It Works": "Each key on your physical keyboard is mapped to a piano note. You press and hear the sound in real time.",
+  "Features": "Includes multiple instrument sounds, custom key mapping, volume controls, and auto-save settings.",
+  "Getting Started": "Open the app, choose your sound, press any letter key to play, and customize in settings.",
+  "Keyboard Shortcuts": "Play: Any key • Volume+: + • Volume-: - • Mute: M • Open Settings: S • Help: D",
+  "Settings & Customization": "Customize instrument, remap keys, shift octaves, and fine-tune sound response.",
+  "Troubleshooting & FAQ": "No sound? Check your browser volume or output device. Settings not saving? Try refreshing or clearing cache."
+};
+
 const Documents: React.FC = () => {
+  const [activeSection, setActiveSection] = useState<SectionKey>("Overview");
+
   return (
     <div className="min-h-screen bg-gray-200 dark:bg-black w-full flex flex-col">
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <ModeToggle />
       </ThemeProvider>
+
       {/* Header Section */}
       <div className="w-full max-w-7xl mx-auto mt-6">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-between">
           {/* Loader Box 1 */}
-          <div className="flex items-center justify-center  rounded-lg shadow-lg w-full md:w-auto">
+          <div className="flex items-center justify-center rounded-lg shadow-lg w-full md:w-auto">
             <Loader />
           </div>
+
           {/* Loader Box 2 with Input */}
           <div className="flex items-center gap-4 rounded-lg shadow-lg w-full md:w-auto">
             <Loader />
@@ -27,22 +55,31 @@ const Documents: React.FC = () => {
           </div>
         </div>
       </div>
-      <hr className="mt-3  border-[#363535] w-[100%]" />
-      {/* Add more content here */}
 
-      {/* Navbar  */}
-      <div className="max-w-7xl mx-auto mt-6 flex w-full">
-        <div className="bg-gray-600 h-221 p-8 rounded-md">
-          <p>✅ Overview</p>
-          <p>✅ How It Works</p>
-          <p>✅ Features</p>
-          <p>✅ Getting Started</p>
-          <p>✅ Keyboard Shortcuts</p>
-          <p>✅ Settings & Customization</p>
-          <p>✅ Troubleshooting & FAQ</p>
+      <hr className="mt-3 border-[#363535] w-full" />
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto mt-6 flex w-full gap-6 px-4">
+        {/* Sidebar */}
+        <div className="bg-white dark:bg-[#111111] dark:text-white h-fit p-4 rounded-md w-60">
+          {Object.keys(sections).map((title) => (
+            <button
+              key={title}
+              onClick={() => setActiveSection(title as SectionKey)}
+              className={`block text-left w-full py-2 px-3 rounded hover:bg-[#252525] ${
+                activeSection === title ? "bg-[#696666] font-semibold" : ""
+              }`}
+            >
+               {title}
+            </button>
+          ))}
         </div>
-        <div className="">
-          </div>
+
+        {/* Section Content */}
+        <div className="flex-1 bg-white dark:bg-[#111111] rounded-md p-6 shadow text-gray-900 dark:text-gray-100">
+          <h2 className="text-2xl font-bold mb-2">{activeSection}</h2>
+          <p className="text-base leading-relaxed">{sections[activeSection]}</p>
+        </div>
       </div>
     </div>
   );
