@@ -1,36 +1,99 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "@/settings/ModeToggle";
-import { Loader } from "lucide-react";
-import type React from "react";
+import {
+  Loader,
+  BookOpenText,
+  Lightbulb,
+  Sparkles,
+  Rocket,
+  Keyboard,
+  Sliders,
+  HelpCircle,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import html2pdf from "html2pdf.js";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const sectionKeys = [
-  "Overview",
-  "How It Works",
-  "Features",
-  "Getting Started",
-  "Keyboard Shortcuts",
-  "Settings & Customization",
-  "Troubleshooting & FAQ",
-  "Go Back"
-] as const;
+const sections = {
+  Overview: `
+**VirtualKeys** is a minimalist piano app that uses your physical keyboard instead of on-screen keys.  
+It's distraction-free, responsive, and perfect for ear training and quick melody experiments.`,
 
-type SectionKey = typeof sectionKeys[number];
+  "How It Works": `
+Each keyboard key maps to a note.  
+You press a key—VirtualKeys plays the sound.  
+Simple, fast, and intuitive for any user.`,
 
-const sections: Record<SectionKey, string> = {
-  "Overview": "VirtualKeys is a minimalist piano app that uses your keyboard instead of on-screen keys. It's distraction free and intuitive.",
-  "How It Works": "Each key on your physical keyboard is mapped to a piano note. You press and hear the sound in real time.",
-  "Features": "Includes multiple instrument sounds, custom key mapping, volume controls, and auto-save settings.",
-  "Getting Started": "Open the app, choose your sound, press any letter key to play, and customize in settings.",
-  "Keyboard Shortcuts": "Play: Any key • Volume+: + • Volume-: - • Mute: M • Open Settings: S • Help: D",
-  "Settings & Customization": "Customize instrument, remap keys, shift octaves, and fine-tune sound response.",
-  "Troubleshooting & FAQ": "No sound? Check your browser volume or output device. Settings not saving? Try refreshing or clearing cache.",
-  "Go Back": "Click here to return to the main page."
+  Features: `
+- 🎧 Multiple instruments  
+- 🗂 Configurable key mappings  
+- 💾 Auto-save settings  
+- 🌙 Light and dark theme support`,
+
+  "Getting Started": `
+1. Launch VirtualKeys.  
+2. Choose your preferred sound.  
+3. Press any letter key to play a note.  
+4. Open settings to customize further.`,
+
+  "Keyboard Shortcuts": `
+- **Play note**: Any mapped key  
+- **Volume Up**: \`+\`  
+- **Volume Down**: \`-\`  
+- **Mute**: \`M\`  
+- **Open Settings**: \`S\`  
+- **Show Help**: \`D\``,
+
+  "Settings & Customization": `
+Customize your experience:
+- 🎵 Change instrument sounds  
+- 🗝 Reassign keyboard keys to notes  
+- 🔊 Shift octave, volume, attack, and more.`,
+
+  "Troubleshooting & FAQ": `
+**No Sound?**  
+- Check your speaker/headphone connection.  
+- Ensure browser tab isn’t muted.  
+- Try refreshing the page.
+
+**Settings not saving?**  
+- Your settings are stored locally.  
+- Try clearing cache or checking browser permissions.
+
+**MIDI Support?**  
+- Coming soon! 🎹`,
 };
 
-const Documents: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<SectionKey>("Overview");
+const sectionIcons = {
+  Overview: BookOpenText,
+  "How It Works": Lightbulb,
+  Features: Sparkles,
+  "Getting Started": Rocket,
+  "Keyboard Shortcuts": Keyboard,
+  "Settings & Customization": Sliders,
+  "Troubleshooting & FAQ": HelpCircle,
+};
+
+const Documents = () => {
+  const [activeSection, setActiveSection] = useState<string>("Overview");
+
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadPDF = () => {
+    if (contentRef.current) {
+      html2pdf()
+        .from(contentRef.current)
+        .set({
+          margin: 0.5,
+          filename: `${activeSection.replace(/\s+/g, "_")}.pdf`,
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+        })
+        .save();
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-200 dark:bg-black w-full flex flex-col font-mono">
@@ -38,16 +101,14 @@ const Documents: React.FC = () => {
         <ModeToggle />
       </ThemeProvider>
 
-      {/* Header Section */}
-      <div className="w-full max-w-7xl mx-auto mt-6">
+      {/* Header */}
+      <div className="w-full max-w-7xl mx-auto mt-6 px-4">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-between">
-          {/* Loader Box 1 */}
-          <div className="flex items-center justify-center rounded-lg shadow-lg w-full md:w-auto">
+          <div className="flex p-2 items-center justify-center rounded-lg shadow-lg w-full md:w-auto">
             <Loader />
           </div>
 
-          {/* Loader Box 2 with Input */}
-          <div className="flex items-center gap-4 rounded-lg shadow-lg w-full md:w-auto">
+          <div className="flex p-2 items-center gap-4 rounded-lg shadow-lg w-full md:w-auto">
             <Loader />
             <input
               type="text"
@@ -63,32 +124,54 @@ const Documents: React.FC = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto mt-6 flex w-full  gap-26 px-4">
         {/* Sidebar */}
-        <div className="bg-white dark:bg-[#111111] dark:text-white h-[870px] p-4 rounded-md w-60">
-          {Object.keys(sections).map((title) => (
-            <button
-              key={title}
-              onClick={() => setActiveSection(title as SectionKey)}
-              className={`block text-left w-full py-2 px-3 rounded hover:bg-[#ebebeb] dark:hover:bg-[#252525] ${
-                activeSection === title ? "text-[#da8282] font-semibold" : ""
-              }`}
-            >
-               {title}
-            </button>
-          ))}
+        <div className="bg-white text dark:bg-[#111111] dark:text-white  h-[870px] p-4 rounded-2xl w-67 space-y-5 ">
+          {Object.entries(sections).map(([title]) => {
+            const Icon = sectionIcons[title as keyof typeof sectionIcons];
+            return (
+              <button
+                key={title}
+                onClick={() => setActiveSection(title)}
+                className={`flex items-center gap-2 text-left w-full py-2 px-3 roundedhover:bg-[#ebebeb] dark:hover:bg-[#252525] ${
+                  activeSection === title ? "text-[#da8282] font-semibold" : ""
+                }`}
+              >
+                <Icon size={18} />
+                {title}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Section Content */}
-        <div className="flex-1  p-6  text-gray-900 dark:text-gray-100">
-          <h2 className="text-2xl font-bold mb-2">{activeSection}</h2>
-          <p className="text-base leading-relaxed">{sections[activeSection]}</p>
+        {/* Content Panel with Animation */}
+        <div className="flex-1 p-6  overflow-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSection}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="text-2xl font-bold mb-4">{activeSection}</h2>
+
+              <div ref={contentRef}>
+                <div className="prose dark:prose-invert max-w-full text-base leading-relaxed">
+                  <ReactMarkdown>{sections[activeSection]}</ReactMarkdown>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* developers contenet  */}
         <div className=" flex flex-col gap-4  dark:text-white p-4 cursor-pointer font-mono ">
-          <h2 className={` ${activeSection ? "text-red-400": ""}`}>For developers</h2>
+          <h2 className={` ${activeSection ? "text-red-400" : ""}`}>
+            For developers
+          </h2>
           <p>For users</p>
-          <hr className="text-black w-[230px] border-[#8d8a8a]"/>
-          <h2>Export as PDF</h2>
+          <hr className="text-black w-[230px] border-[#8d8a8a]" />
+
+          <p className="cursor-pointer" onClick={handleDownloadPDF}>📄 Download as PDF</p>
         </div>
       </div>
     </div>
