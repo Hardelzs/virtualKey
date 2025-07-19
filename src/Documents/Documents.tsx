@@ -40,9 +40,9 @@ Simple, fast, and intuitive for any user.`,
 
   "Keyboard Shortcuts": `
 - **Play note**: Any mapped key  
-- **Volume Up**: \`+\`  
-- **Volume Down**: \`-\`  
-- **Mute**: \`M\`  
+- **Volume Up**: \`⬆️+\`  
+- **Volume Down**: \`⬆️-\`  
+- **Mute**: \`⬆️M\`  
 - **Open Settings**: \`S\`  
 - **Show Help**: \`D\``,
 
@@ -107,7 +107,7 @@ const Documents = () => {
       <div className="w-full max-w-7xl mx-auto mt-6 px-4">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-between">
           <div className="flex p-2 items-center justify-center rounded-lg shadow-lg w-full md:w-auto">
-            <Loader />
+            <Loader /> KeyAura
           </div>
 
           <div className="flex p-2 items-center gap-4 rounded-lg shadow-lg w-full md:w-auto">
@@ -117,6 +117,7 @@ const Documents = () => {
               placeholder="Ask or search"
               className="border-none outline-none bg-transparent px-2 py-1 w-full md:w-48"
             />
+            
           </div>
         </div>
       </div>
