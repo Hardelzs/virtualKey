@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
-import html2pdf from "html2pdf.js";
+// import html2pdf from "html2pdf.js";
 import { useNavigate } from "react-router-dom";
 
 const sections = {
@@ -82,20 +82,20 @@ const Documents = () => {
 
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const handleDownloadPDF = () => {
-    if (contentRef.current) {
-      html2pdf()
-        .from(contentRef.current)
-        .set({
-          margin: 0.5,
-          filename: `${activeSection.replace(/\s+/g, "_")}.pdf`,
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-        })
-        .save();
-    }
-  };
+  // const handleDownloadPDF = () => {
+  //   if (contentRef.current) {
+  //     html2pdf()
+  //       .from(contentRef.current)
+  //       .set({
+  //         margin: 0.5,
+  //         filename: `${activeSection.replace(/\s+/g, "_")}.pdf`,
+  //         image: { type: "jpeg", quality: 0.98 },
+  //         html2canvas: { scale: 2 },
+  //         jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+  //       })
+  //       .save();
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gray-200 dark:bg-black w-full flex flex-col font-mono">
@@ -186,7 +186,7 @@ const Documents = () => {
           <p>For users</p>
           <hr className="text-black w-[230px] border-[#8d8a8a]" />
 
-          <p className="cursor-pointer" onClick={handleDownloadPDF}>
+          <p className="cursor-pointer">
             📄 Download as PDF
           </p>
         </div>
