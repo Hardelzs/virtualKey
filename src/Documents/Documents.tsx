@@ -14,6 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import html2pdf from "html2pdf.js";
+import { useNavigate } from "react-router-dom";
 
 const sections = {
   Overview: `
@@ -77,6 +78,7 @@ const sectionIcons = {
 
 const Documents = () => {
   const [activeSection, setActiveSection] = useState<string>("Overview");
+  const navigate = useNavigate();
 
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -123,8 +125,12 @@ const Documents = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto mt-6 flex w-full  gap-26 px-4">
+
+
         {/* Sidebar */}
         <div className="bg-white text dark:bg-[#111111] dark:text-white  h-[870px] p-4 rounded-2xl w-67 space-y-5 ">
+
+
           {Object.entries(sections).map(([title]) => {
             const Icon = sectionIcons[title as keyof typeof sectionIcons];
             return (
@@ -140,6 +146,14 @@ const Documents = () => {
               </button>
             );
           })}
+
+                    {/* Go back button  */}
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center mt-107 border p-3 gap-2 text-left w-full py-2 px-3 rounded hover:bg-[#ebebeb] dark:hover:bg-[#252525] text-blue-500 hover:text-blue-900 font-semibold mb-2"
+          >
+            ← Go Back
+          </button>
         </div>
 
         {/* Content Panel with Animation */}
@@ -171,7 +185,9 @@ const Documents = () => {
           <p>For users</p>
           <hr className="text-black w-[230px] border-[#8d8a8a]" />
 
-          <p className="cursor-pointer" onClick={handleDownloadPDF}>📄 Download as PDF</p>
+          <p className="cursor-pointer" onClick={handleDownloadPDF}>
+            📄 Download as PDF
+          </p>
         </div>
       </div>
     </div>
