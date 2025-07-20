@@ -68,9 +68,9 @@ Customize your experience:
 };
 
 const sectionIcons = {
-  Overview: BookOpenText,
+  "Overview": BookOpenText,
   "How It Works": Lightbulb,
-  Features: Sparkles,
+  "Features": Sparkles,
   "Getting Started": Rocket,
   "Keyboard Shortcuts": Keyboard,
   "Settings & Customization": Sliders,
