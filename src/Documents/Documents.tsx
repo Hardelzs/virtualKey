@@ -1,3 +1,4 @@
+type SectionKey = keyof typeof sections;
 import { useRef, useState } from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "@/settings/ModeToggle";
@@ -77,7 +78,7 @@ const sectionIcons = {
 };
 
 const Documents = () => {
-  const [activeSection, setActiveSection] = useState<string>("Overview");
+  const [activeSection, setActiveSection] = useState<SectionKey>("Overview");
   const navigate = useNavigate();
 
   const contentRef = useRef<HTMLDivElement>(null);
