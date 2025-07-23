@@ -1,4 +1,3 @@
-type SectionKey = keyof typeof sections;
 import { useRef, useState } from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "@/settings/ModeToggle";
@@ -11,20 +10,21 @@ import {
   Keyboard,
   Sliders,
   HelpCircle,
+  type LucideIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
-// import html2pdf from "html2pdf.js";
 import { useNavigate } from "react-router-dom";
 
+// SECTION CONTENT
 const sections = {
   Overview: `
-**KeyAura** is a minimalist piano app that uses your physical keyboard instead of on-screen keys.  
+**VirtualKeys** is a minimalist piano app that uses your physical keyboard instead of on-screen keys.  
 It's distraction-free, responsive, and perfect for ear training and quick melody experiments.`,
 
   "How It Works": `
 Each keyboard key maps to a note.  
-You press a key—KeyAura plays the sound.  
+You press a key—VirtualKeys plays the sound.  
 Simple, fast, and intuitive for any user.`,
 
   Features: `
@@ -34,7 +34,7 @@ Simple, fast, and intuitive for any user.`,
 - 🌙 Light and dark theme support`,
 
   "Getting Started": `
-1. Launch KeyAura.  
+1. Launch VirtualKeys.  
 2. Choose your preferred sound.  
 3. Press any letter key to play a note.  
 4. Open settings to customize further.`,
@@ -44,7 +44,7 @@ Simple, fast, and intuitive for any user.`,
 - **Volume Up**: \`⬆️+\`  
 - **Volume Down**: \`⬆️-\`  
 - **Mute**: \`⬆️M\`  
-- **Open Commands**: \`S\`  
+- **Open Settings**: \`S\`  
 - **Show Help**: \`D\``,
 
   "Settings & Customization": `
@@ -67,10 +67,14 @@ Customize your experience:
 - Coming soon! 🎹`,
 };
 
-const sectionIcons = {
-  "Overview": BookOpenText,
+// TYPE FOR SECTION KEYS
+type SectionKey = keyof typeof sections;
+
+// ICONS
+const sectionIcons: Record<SectionKey, LucideIcon> = {
+  Overview: BookOpenText,
   "How It Works": Lightbulb,
-  "Features": Sparkles,
+  Features: Sparkles,
   "Getting Started": Rocket,
   "Keyboard Shortcuts": Keyboard,
   "Settings & Customization": Sliders,
@@ -80,23 +84,7 @@ const sectionIcons = {
 const Documents = () => {
   const [activeSection, setActiveSection] = useState<SectionKey>("Overview");
   const navigate = useNavigate();
-
   const contentRef = useRef<HTMLDivElement>(null);
-
-  // const handleDownloadPDF = () => {
-  //   if (contentRef.current) {
-  //     html2pdf()
-  //       .from(contentRef.current)
-  //       .set({
-  //         margin: 0.5,
-  //         filename: `${activeSection.replace(/\s+/g, "_")}.pdf`,
-  //         image: { type: "jpeg", quality: 0.98 },
-  //         html2canvas: { scale: 2 },
-  //         jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-  //       })
-  //       .save();
-  //   }
-  // };
 
   return (
     <div className="min-h-screen bg-gray-200 dark:bg-black w-full flex flex-col font-mono">
@@ -118,7 +106,6 @@ const Documents = () => {
               placeholder="Ask or search"
               className="border-none outline-none bg-transparent px-2 py-1 w-full md:w-48"
             />
-            
           </div>
         </div>
       </div>
@@ -126,20 +113,17 @@ const Documents = () => {
       <hr className="mt-3 border-[#363535] w-full" />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto mt-6 flex w-full  gap-26 px-4">
-
-
+      <div className="max-w-7xl mx-auto mt-6 flex w-full gap-26 px-4">
         {/* Sidebar */}
-        <div className="bg-white text dark:bg-[#111111] dark:text-white  h-[870px] p-4 rounded-2xl w-67 space-y-5 ">
-
-
+        <div className="bg-white text dark:bg-[#111111] dark:text-white h-[870px] p-4 rounded-2xl w-67 space-y-5">
           {Object.entries(sections).map(([title]) => {
-            const Icon = sectionIcons[title as keyof typeof sectionIcons];
+            const typedTitle = title as SectionKey;
+            const Icon = sectionIcons[typedTitle];
             return (
               <button
                 key={title}
-                onClick={() => setActiveSection(title)}
-                className={`flex items-center gap-2 text-left w-full py-2 px-3 roundedhover:bg-[#ebebeb] dark:hover:bg-[#252525] ${
+                onClick={() => setActiveSection(typedTitle)}
+                className={`flex items-center gap-2 text-left w-full py-2 px-3 rounded hover:bg-[#ebebeb] dark:hover:bg-[#252525] ${
                   activeSection === title ? "text-[#da8282] font-semibold" : ""
                 }`}
               >
@@ -149,7 +133,7 @@ const Documents = () => {
             );
           })}
 
-                    {/* Go back button  */}
+          {/* Go back button */}
           <button
             onClick={() => navigate("/")}
             className="flex items-center mt-107 border p-3 gap-2 text-left w-full py-2 px-3 rounded hover:bg-[#ebebeb] dark:hover:bg-[#252525] text-blue-500 hover:text-blue-900 font-semibold mb-2"
@@ -159,7 +143,7 @@ const Documents = () => {
         </div>
 
         {/* Content Panel with Animation */}
-        <div className="flex-1 p-6  overflow-auto">
+        <div className="flex-1 p-6 overflow-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
@@ -179,17 +163,14 @@ const Documents = () => {
           </AnimatePresence>
         </div>
 
-        {/* developers contenet  */}
-        <div className=" flex flex-col gap-4  dark:text-white p-4 cursor-pointer font-mono ">
-          <h2 className={` ${activeSection ? "text-red-400" : ""}`}>
+        {/* Developer section */}
+        <div className="flex flex-col gap-4 dark:text-white p-4 cursor-pointer font-mono">
+          <h2 className={`${activeSection ? "text-red-400" : ""}`}>
             For developers
           </h2>
           <p>For users</p>
           <hr className="text-black w-[230px] border-[#8d8a8a]" />
-
-          <p className="cursor-pointer">
-            📄 Download as PDF
-          </p>
+          <p className="cursor-pointer">📄 Download as PDF</p>
         </div>
       </div>
     </div>
