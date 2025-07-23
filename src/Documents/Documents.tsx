@@ -19,12 +19,12 @@ import { useNavigate } from "react-router-dom";
 
 const sections = {
   Overview: `
-**VirtualKeys** is a minimalist piano app that uses your physical keyboard instead of on-screen keys.  
+**KeyAura** is a minimalist piano app that uses your physical keyboard instead of on-screen keys.  
 It's distraction-free, responsive, and perfect for ear training and quick melody experiments.`,
 
   "How It Works": `
 Each keyboard key maps to a note.  
-You press a key—VirtualKeys plays the sound.  
+You press a key—KeyAura plays the sound.  
 Simple, fast, and intuitive for any user.`,
 
   Features: `
@@ -34,7 +34,7 @@ Simple, fast, and intuitive for any user.`,
 - 🌙 Light and dark theme support`,
 
   "Getting Started": `
-1. Launch VirtualKeys.  
+1. Launch KeyAura.  
 2. Choose your preferred sound.  
 3. Press any letter key to play a note.  
 4. Open settings to customize further.`,
@@ -44,7 +44,7 @@ Simple, fast, and intuitive for any user.`,
 - **Volume Up**: \`⬆️+\`  
 - **Volume Down**: \`⬆️-\`  
 - **Mute**: \`⬆️M\`  
-- **Open Settings**: \`S\`  
+- **Open Commands**: \`S\`  
 - **Show Help**: \`D\``,
 
   "Settings & Customization": `

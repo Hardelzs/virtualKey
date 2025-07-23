@@ -95,7 +95,7 @@ const Command = ({
   }, []);
 
   return (
-    <div className="absolute top-3 right-3 cursor-pointer">
+    <div className="absolute top-9 right-3 cursor-pointer">
       <DropdownMenu>
         <DropdownMenuTrigger asChild onSelect={handleCommands}>
           <p className="text-gray-400 text cursor-pointer relative z-10">
