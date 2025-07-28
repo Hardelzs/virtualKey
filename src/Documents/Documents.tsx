@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ModeToggle } from "@/settings/ModeToggle";
 import {
-  Loader,
   BookOpenText,
   Lightbulb,
   Sparkles,
@@ -95,12 +94,12 @@ const Documents = () => {
       {/* Header */}
       <div className="w-full max-w-7xl mx-auto mt-6 px-4">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center justify-between">
-          <div className="flex p-2 items-center justify-center rounded-lg shadow-lg w-full md:w-auto">
-            <Loader /> KeyAura
+          <div className="flex p-2 gap-0.5 items-center justify-center rounded-lg shadow-lg w-full md:w-auto">
+            <img src="/pob.png" alt="" className="w-8" /> KeyAura
           </div>
 
           <div className="flex p-2 items-center gap-4 rounded-lg shadow-lg w-full md:w-auto">
-            <Loader />
+            <img src="/pob.png" alt="" className="w-8" />
             <input
               type="text"
               placeholder="Ask or search"
